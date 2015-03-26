@@ -22,5 +22,19 @@
   "bugs": {
     "url": "https://github.com/CascadeEnergy/aws-most/issues"
   },
-  "homepage": "https://github.com/CascadeEnergy/aws-most"
+  "homepage": "https://github.com/CascadeEnergy/aws-most",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-istanbul": "^0.7.0",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.2.1",
+    "proxyquire": "^1.4.0",
+    "should": "^5.2.0",
+    "sinon": "^1.14.1"
+  },
+  "dependencies": {
+    "aws-promised": "^0.2.2",
+    "lodash": "^3.6.0",
+    "most": "^0.12.0"
+  }
 }
