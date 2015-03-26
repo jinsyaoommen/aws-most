@@ -1,0 +1,26 @@
+{
+  "name": "aws-most",
+  "version": "0.0.1",
+  "description": "Monadic reactive streaming for the aws-sdk using most.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CascadeEnergy/aws-most.git"
+  },
+  "keywords": [
+    "aws",
+    "aws-sdk",
+    "reactive",
+    "streams",
+    "most"
+  ],
+  "author": "Will Vaughn <willieviseoae@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CascadeEnergy/aws-most/issues"
+  },
+  "homepage": "https://github.com/CascadeEnergy/aws-most"
+}
