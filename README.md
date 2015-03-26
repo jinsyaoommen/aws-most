@@ -19,7 +19,7 @@ more relevant as a reactive stream.
 ```javascript
 'use strict';
 
-var awsMost = require('../');
+var awsMost = require('aws-most');
 var s3 = awsMost.s3();
 
 // Imagine you have this bucket with a folder in it.
