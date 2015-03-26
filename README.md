@@ -67,6 +67,8 @@ function done() {
 
 #### Install
 
+Not actually available yet. Coming soon.
+
 `npm install aws-most`
 
 ### Contributing
