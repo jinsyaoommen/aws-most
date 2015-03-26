@@ -65,6 +65,10 @@ function done() {
 // All done! No more files
 ```
 
+#### Install
+
+`npm install aws-most`
+
 ### Contributing
 
 Please submit PR's for proposed additions, write tests, and try to follow the
