@@ -8,16 +8,16 @@ describe('s3', function() {
   var s3Promised = 'test.s3.promised';
   var listObjects = 'test.listObjects';
   var awsPromised;
-  var wrap;
+  var partial;
   var createS3Most;
 
   beforeEach(function() {
     awsPromised = { getS3: sinon.stub().returns(s3Promised) };
-    wrap = sinon.stub();
+    partial = sinon.stub();
 
     createS3Most = proxyquire('../../s3', {
       'aws-promised': awsPromised,
-      'lodash/function/wrap': wrap,
+      'lodash/function/partial': partial,
       './listObjects': listObjects
     });
   });
@@ -33,17 +33,17 @@ describe('s3', function() {
     });
 
     it('should create listObject method injected with s3 client', function () {
-      var wrappedListObjects = 'test.wrapped.listObjects';
+      var partialedListObjects = 'test.partialed.listObjects';
       var s3Most;
 
-      wrap.onCall(0).returns(wrappedListObjects);
+      partial.onCall(0).returns(partialedListObjects);
 
       s3Most = createS3Most(options);
 
-      wrap.args[0].should.have.length(2);
-      wrap.args[0][0].should.equal(s3Promised);
-      wrap.args[0][1].should.equal(listObjects);
-      s3Most.listObjects.should.equal(wrappedListObjects);
+      partial.args[0].should.have.length(2);
+      partial.args[0][0].should.equal(listObjects);
+      partial.args[0][1].should.equal(s3Promised);
+      s3Most.listObjects.should.equal(partialedListObjects);
     });
   });
 });

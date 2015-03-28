@@ -1,7 +1,7 @@
 'use strict';
 
 var most = require('most');
-var wrap = require('lodash/function/wrap');
+var partial = require('lodash/function/partial');
 var unfoldObjects = require('./unfoldObjects');
 var contentsToStream = require('./contentsToStream');
 
@@ -16,7 +16,7 @@ var contentsToStream = require('./contentsToStream');
  * @returns {*|Stream}
  */
 function listObjects(s3, params) {
-  var unfolder = wrap(s3, unfoldObjects);
+  var unfolder = partial(unfoldObjects, s3);
   return most.unfold(unfolder, params).flatMap(contentsToStream);
 }
 

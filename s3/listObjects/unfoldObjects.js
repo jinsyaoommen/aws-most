@@ -28,7 +28,7 @@ function unfoldObjects(s3, params) {
   }
 
   return s3
-    .listObjectsAsync(params)
+    .listObjectsPromised(params)
     .then(buildNextTuple);
 }
 

@@ -9,7 +9,7 @@ describe('s3/listObjects/unfoldObjects', function() {
 
   beforeEach(function() {
     s3 = {
-      listObjectsAsync: sinon.stub().returnsThis(),
+      listObjectsPromised: sinon.stub().returnsThis(),
       then: sinon.stub()
     };
 
@@ -17,7 +17,7 @@ describe('s3/listObjects/unfoldObjects', function() {
   });
 
   it(
-    'should call s3.listObjectsAsync and build a "tuple" of listObjects data',
+    'should call s3.listObjectsPromised and build a "tuple" of listObjects data',
     function() {
       var params = 'test.params';
 
@@ -25,9 +25,9 @@ describe('s3/listObjects/unfoldObjects', function() {
 
       var result = unfoldObjects(s3, params);
 
-      s3.listObjectsAsync.calledOnce.should.equal(true);
-      s3.listObjectsAsync.args[0].should.have.length(1);
-      s3.listObjectsAsync.args[0][0].should.equal(params);
+      s3.listObjectsPromised.calledOnce.should.equal(true);
+      s3.listObjectsPromised.args[0].should.have.length(1);
+      s3.listObjectsPromised.args[0][0].should.equal(params);
 
       s3.then.calledOnce.should.equal(true);
 

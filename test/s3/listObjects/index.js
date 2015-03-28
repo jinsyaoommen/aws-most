@@ -19,21 +19,21 @@ describe('s3/listObjects', function() {
         unfold: sinon.stub().returnsThis(),
         flatMap: sinon.stub().returns(listObjectsStream)
       };
-      var wrap = sinon.stub().returns(unfolder);
+      var partial = sinon.stub().returns(unfolder);
 
       var listObjects = proxyquire('../../../s3/listObjects', {
         most: most,
-        'lodash/function/wrap': wrap,
+        'lodash/function/partial': partial,
         './unfoldObjects': unfoldObjects,
         './contentsToStream': contentsToStream
       });
 
       var result = listObjects(s3, params);
 
-      wrap.calledOnce.should.equal(true);
-      wrap.args[0].should.have.length(2);
-      wrap.args[0][0].should.equal(s3);
-      wrap.args[0][1].should.equal(unfoldObjects);
+      partial.calledOnce.should.equal(true);
+      partial.args[0].should.have.length(2);
+      partial.args[0][0].should.equal(unfoldObjects);
+      partial.args[0][1].should.equal(s3);
 
       most.unfold.calledOnce.should.equal(true);
       most.unfold.args[0].should.have.length(2);
