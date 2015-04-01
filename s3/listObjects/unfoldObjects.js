@@ -1,35 +1,27 @@
 'use strict';
 
+var responseHandler = require('./responseHandler');
+
 /**
- * This is an iterator function for a call to most.unfold. It makes an async
- * call to s3.listObjects, and returns a promise. That promise is fullfilled
- * by a tuple object to pass to the next iteration of unfold.
+ * Delegates to the responseHandler module to process the response data from
+ * AWS.S3.listObject. The responseHandler responds returns a tuple for the next
+ * iteration of the unfold function.
  *
  * It keeps seeding the next call of this function with a params object that
- * has the Marker field set to the last Key in the received set. Basically this
- * is a way to keep making paginated calls to listObjects because it at most
- * returns 1000 objects in it's response.
+ * has the Marker field set to the last Key in the received set. This keeps
+ * making paginated calls to s3 for the next 1000 objects, as soon as the
+ * responseHandler is done processing it's current list of 1000 objects.
  *
  * @param s3 A promisified s3 client.
+ * @param processorFn Processes the collection of s3 objects.
  * @param {object} params Parameters to pass to AWS.S3.listObjects
  *
  * @returns {*|Promise}
  */
-function unfoldObjects(s3, params) {
-  function buildNextTuple(data) {
-    var lastFileIndex = data.Contents.length - 1;
-    var done = data.Contents.length === 0;
-
-    if (!done) {
-      params.Marker = data.Contents[lastFileIndex].Key;
-    }
-
-    return {value: data.Contents, seed: params, done: done};
-  }
-
+function unfoldObjects(s3, processorFn, params) {
   return s3
     .listObjectsPromised(params)
-    .then(buildNextTuple);
+    .then(responseHandler(processorFn, params));
 }
 
 module.exports = unfoldObjects;

@@ -3,21 +3,21 @@
 var most = require('most');
 var partial = require('lodash/function/partial');
 var unfoldObjects = require('./unfoldObjects');
-var contentsToStream = require('./contentsToStream');
 
 /**
- * Returns a most stream of S3 file data object.
- *
- * See the Contents property of the return of AWS.S3.listObjects
- * @link http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#listObjects-property
+ * Returns a most stream unfolded from a sequence of data responses from
+ * AWS.S3.listObjects. The resolution of the processorFn promise determines
+ * the value which emits from this stream.
  *
  * @param {object} s3 S3 promised client from aws-promised
  * @param {object} params Params object suitable for S3.listObjects call.
+ * @param {function} processorFn Works with the collection of s3 objects.
+ *
  * @returns {*|Stream}
  */
-function listObjects(s3, params) {
-  var unfolder = partial(unfoldObjects, s3);
-  return most.unfold(unfolder, params).flatMap(contentsToStream);
+function listObjects(s3, params, processorFn) {
+  var unfolder = partial(unfoldObjects, s3, processorFn);
+  return most.unfold(unfolder, params);
 }
 
 module.exports = listObjects;

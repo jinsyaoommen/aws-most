@@ -1,5 +1,7 @@
 'use strict';
 
+var most = require('most');
+var noop = require('lodash/utility/noop');
 var awsMost = require('../');
 var s3 = awsMost.s3();
 
@@ -22,17 +24,33 @@ var params = {
   Prefix: 'someFolder/'
 };
 
-s3.listObjects(params)
-  .filter(byKeyPattern)
-  .observe(logFileName)
+// The aws-most s3.listObjects stream.
+s3.listObjects(params, logFooFiles)
+  .observe(noop)
   .then(done);
 
-function byKeyPattern(file) {
-  return /^foo/.test(file.Key);
+// This is the processorFn argument aws-mosts' s3.listObjects. It receives a collection
+// of s3 objects unfolded from a single call to AWS.S3.listObjects. The
+// processor function must return a promise after it has completed. The
+// resolution of the promise then triggers aws-mosts' s3.listObjects to unfold
+// another collection of s3Objects from the bucket.
+//
+// In this example I'm using a most stream, to process the collection of
+// s3Objects. The .observe method returns a promise which resolves when, in this
+// case, all files have been filtered by name and logged to the console.
+function logFooFiles(s3Objects) {
+  return most
+    .from(s3Objects)
+    .filter(byKeyPattern)
+    .observe(logFileName);
 }
 
-function logFileName(file) {
-  console.log(file.Key);
+function byKeyPattern(s3Object) {
+  return /^foo/.test(s3Object.Key);
+}
+
+function logFileName(s3Object) {
+  console.log(s3Object.Key);
 }
 
 function done() {
