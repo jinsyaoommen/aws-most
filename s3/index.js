@@ -11,7 +11,7 @@ var listObjects = require('./listObjects');
  * @returns {{listObjects: (Function|*|exports)}}
  */
 function createS3Most(options) {
-  var s3 = awsPromised.getS3(options);
+  var s3 = awsPromised.s3(options);
 
   return {
     listObjects: partial(listObjects, s3)

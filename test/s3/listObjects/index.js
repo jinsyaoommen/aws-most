@@ -13,7 +13,7 @@ describe('s3/listObjects', function() {
       var unfolder = 'test.partial.unfoldObjects';
       var s3 = 'test.s3';
       var params = 'test.params';
-      var processorFn = 'test.processorFn'
+      var processorFn = 'test.processorFn';
 
       var most = {
         unfold: sinon.stub().returns(listObjectsStream)

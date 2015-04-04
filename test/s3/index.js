@@ -12,7 +12,7 @@ describe('s3', function() {
   var createS3Most;
 
   beforeEach(function() {
-    awsPromised = { getS3: sinon.stub().returns(s3Promised) };
+    awsPromised = { s3: sinon.stub().returns(s3Promised) };
     partial = sinon.stub();
 
     createS3Most = proxyquire('../../s3', {
@@ -27,9 +27,9 @@ describe('s3', function() {
 
     it('should create s3 promised client', function () {
       createS3Most(options);
-      awsPromised.getS3.calledOnce.should.equal(true);
-      awsPromised.getS3.args[0].should.have.length(1);
-      awsPromised.getS3.args[0][0].should.equal(options);
+      awsPromised.s3.calledOnce.should.equal(true);
+      awsPromised.s3.args[0].should.have.length(1);
+      awsPromised.s3.args[0][0].should.equal(options);
     });
 
     it('should create listObject method injected with s3 client', function () {
