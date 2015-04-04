@@ -33,7 +33,7 @@
     "sinon": "^1.14.1"
   },
   "dependencies": {
-    "aws-promised": "nackjicholson/aws-promised",
+    "aws-promised": "^2.0.0",
     "lodash": "^3.6.0",
     "most": "^0.12.0"
   }
